@@ -40,7 +40,8 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-
+    'django_celery_beat',
+    'django_celery_results'
 ]
 
 CUSTOM_APPS = [
@@ -128,3 +129,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Celery
+# https://docs.celeryproject.org/en/latest/django
+
+CELERY_RESULT_BACKEND = 'django-db'
