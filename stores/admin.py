@@ -31,7 +31,9 @@ class StoreAdmin(admin.ModelAdmin):
         "close_time"
     ]
     list_display = [
-        "name"
+        "name",
+        "open_time",
+        "close_time"
     ]
     inlines = [
         StoreFrontInline
