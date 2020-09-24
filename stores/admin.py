@@ -3,7 +3,7 @@ from django.contrib import admin
 from stores.models import Store, StoreFront, StoreFrontStatusLog
 
 
-class StoreFrontInline(admin.TabularInline):
+class StoreFrontInline(admin.StackedInline):
     """
     Store Front inline.
     """
@@ -12,6 +12,7 @@ class StoreFrontInline(admin.TabularInline):
         "platform",
         "url",
         "store",
+        "status",
         "online"
     ]
     readonly_fields = [
@@ -48,7 +49,7 @@ class StoreFrontStatusLogAdmin(admin.ModelAdmin):
     fields = [
         "store_front",
         "online",
-        "log_time"
+        "log_time",
     ]
     list_display = [
         "store_front",

@@ -35,11 +35,17 @@ class StoreFront(models.Model):
         (DELIVEROO, "Deliveroo"),
         (UBER_EATS, "Uber Eats"),
     ]
+    ACTIVE = "ACTIVE"
+    DISABLED = "DISABLED"
+    STATUS_CHOICES = [
+        (ACTIVE, "Active"),
+        (DISABLED, "Disabled"),
+    ]
     platform = models.CharField(max_length=100, choices=PLATFORM_CHOICES)
     url = models.URLField()
     store = models.ForeignKey("stores.Store", on_delete=models.CASCADE)
+    status = models.CharField(max_length=100, default=ACTIVE, choices=STATUS_CHOICES)
     online = models.BooleanField(default=False, editable=False)
-    active = models.BooleanField(default=True)
 
     class Meta:
         unique_together = ["store", "platform"]
@@ -68,3 +74,5 @@ class StoreFrontStatusLog(models.Model):
     def save(self, *args, **kwargs):
         self.log_time = tz.localtime()
         super().save(*args, **kwargs)
+        self.store_front.online = self.online
+        self.store_front.save()
