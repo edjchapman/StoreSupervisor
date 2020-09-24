@@ -17,6 +17,9 @@ tests/.coverage
 build/
 tests/report/
 
+# SQLite3
+*.sqlite3
+
 # PyCharm
 .idea/
 
