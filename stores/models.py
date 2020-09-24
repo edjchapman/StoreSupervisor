@@ -29,19 +29,13 @@ class StoreFront(models.Model):
     """
     Store Front model.
     """
-    DELIVEROO = "DELIVEROO"
-    UBER_EATS = "UBER_EATS"
-    PLATFORM_CHOICES = [
-        (DELIVEROO, "Deliveroo"),
-        (UBER_EATS, "Uber Eats"),
-    ]
     ACTIVE = "ACTIVE"
     DISABLED = "DISABLED"
     STATUS_CHOICES = [
         (ACTIVE, "Active"),
         (DISABLED, "Disabled"),
     ]
-    platform = models.CharField(max_length=100, choices=PLATFORM_CHOICES)
+    platform = models.ForeignKey("platforms.Platform", on_delete=models.CASCADE)
     url = models.URLField()
     store = models.ForeignKey("stores.Store", on_delete=models.CASCADE)
     status = models.CharField(max_length=100, default=ACTIVE, choices=STATUS_CHOICES)
@@ -53,7 +47,7 @@ class StoreFront(models.Model):
     def __str__(self):
         return "{} - {}".format(
             self.store.name,
-            self.get_platform_display()
+            self.platform.name
         )
 
 
