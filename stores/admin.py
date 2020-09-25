@@ -29,7 +29,14 @@ class StoreAdmin(admin.ModelAdmin):
     fields = [
         "name",
         "open_time",
-        "close_time"
+        "close_time",
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+        "sunday"
     ]
     list_display = [
         "name",

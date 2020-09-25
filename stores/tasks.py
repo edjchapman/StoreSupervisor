@@ -7,7 +7,7 @@ from stores.services.store_statuses import store_online
 @shared_task
 def update_store_statuses():
     for store in Store.objects.all():
-        if store.is_open():
+        if store.open_today() and store.open_now():
             for sf in store.storefront_set.filter(status=StoreFront.ACTIVE):
                 StoreFrontStatusLog.objects.create(
                     store_front=sf,
