@@ -19,26 +19,26 @@ celery -A supervisor worker -l info -E
 ; ==================================
 
 ; the name of your supervisord program
-[program:pichacelery]
+[program:supervisor_celery_worker]
 
 ; Set full path to celery program if using virtualenv
-command=/home/mosh/.virtualenvs/picha/bin/celery worker -A picha --loglevel=INFO
+command=/home/supervisor/vsuper/bin/celery worker -A supervisor --loglevel=INFO
 
 ; The directory to your Django project
-directory=/home/mosh/sites/picha
+directory=/home/supervisor/Supervisor
 
 ; If supervisord is run as the root user, switch users to this UNIX user account
 ; before doing any processing.
-user=mosh
+user=supervisor
 
 ; Supervisor will start as many instances of this program as named by numprocs
 numprocs=1
 
 ; Put process stdout output in this file
-stdout_logfile=/var/log/celery/picha_worker.log
+stdout_logfile=/home/supervisor/logs/celery/celery_worker.log
 
 ; Put process stderr output in this file
-stderr_logfile=/var/log/celery/picha_worker.log
+stderr_logfile=/home/supervisor/logs/celery/celery_worker.log
 
 ; If true, this program will start automatically when supervisord is started
 autostart=true
@@ -66,7 +66,7 @@ killasgroup=true
 ; if your broker is supervised, set its priority higher
 ; so it starts first
 priority=998
-Celery Scheduler: picha_celerybeat.conf
+Celery Scheduler: supervisor_celerybeat.conf
 ```
 
 
@@ -77,26 +77,26 @@ Celery Scheduler: picha_celerybeat.conf
 ; ================================
 
 ; the name of your supervisord program
-[program:pichacelerybeat]
+[program:supervisor_celery_beat]
 
 ; Set full path to celery program if using virtualenv
-command=/home/mosh/.virtualenvs/picha/bin/celerybeat -A picha --loglevel=INFO
+command=/home/supervisor/vsuper/bin/celery -A supervisor --loglevel=INFO
 
 ; The directory to your Django project
-directory=/home/mosh/sites/picha
+directory=/home/supervisor/Supervisor
 
 ; If supervisord is run as the root user, switch users to this UNIX user account
 ; before doing any processing.
-user=mosh
+user=supervisor
 
 ; Supervisor will start as many instances of this program as named by numprocs
 numprocs=1
 
 ; Put process stdout output in this file
-stdout_logfile=/var/log/celery/picha_beat.log
+stdout_logfile=/home/supervisor/logs/celery/celery_beat.log
 
 ; Put process stderr output in this file
-stderr_logfile=/var/log/celery/picha_beat.log
+stderr_logfile=/home/supervisor/logs/celery/celery_beat.log
 
 ; If true, this program will start automatically when supervisord is started
 autostart=true
