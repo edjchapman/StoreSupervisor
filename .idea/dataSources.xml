@@ -15,5 +15,11 @@
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db.sqlite3</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="Supervisor Production" uuid="c99f5018-31d8-4bf0-b0a7-c9a04ed82f4b">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://161.35.161.226:5432/supervisor</jdbc-url>
+    </data-source>
   </component>
 </project>

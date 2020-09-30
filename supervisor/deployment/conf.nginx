@@ -1,0 +1,80 @@
+upstream store-supervisor-backend {
+    server localhost:8000;
+}
+
+server {
+
+    server_name store-supervisor.website;
+
+    ## Only requests to our Host are allowed i.e. natooraapp.uk.natoora.com
+    if ($host !~* ^(store-supervisor.website)$ ) {
+        return 444;
+    }
+
+    keepalive_timeout 5;
+    client_max_body_size 4G;
+
+    error_log  /var/log/nginx/error.log warn;
+    access_log  /var/log/nginx/access.log;
+
+    location /media {
+        alias /home/supervisor/media;
+    }
+
+    location /static {
+        alias /home/supervisor/static;
+    }
+
+    location /static/admin {
+        alias /home/supervisor/vsuper/lib/python3.7/site-packages/django/contrib/admin/static/admin;
+    }
+
+    location / {
+        try_files $uri @proxy_to_app;
+    }
+
+    location @proxy_to_app {
+
+        proxy_pass http://supervisor-backend;
+
+        # Sets the HTTP protocol version for proxying. By default, version 1.0 is used.
+        # Version 1.1 is recommended for use with keepalive connections and NTLM authentication.
+        proxy_http_version 1.1;
+
+        # WebSocket support. Depending on the request value, set the Upgrade and connection headers
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+
+        # We've set the host header, so we don't need Nginx to muddle about with redirects
+        proxy_redirect off;
+
+        # pass the Host: header from the client for the sake of redirects
+        proxy_set_header  Host $host;
+
+        proxy_set_header X-Real-IP $remote_addr;
+
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+        proxy_set_header X-Forwarded-Host $server_name;
+
+        # proxy_buffering off for proxying to websockets
+        proxy_buffering off;
+
+        # enable this if you use HTTPS:
+        proxy_set_header X-Forwarded-Proto https;
+
+        proxy_set_header content-type "application/json";
+
+    }
+
+}
+
+server {
+
+    server_name _; # Catchall value for any attempt to  which will never trigger on a real hostname.
+
+    access_log /var/log/nginx/catchall-access.log;
+
+    return 444;
+
+}
