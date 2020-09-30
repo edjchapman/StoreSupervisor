@@ -5,3 +5,4 @@ django-celery-beat==2.0.0
 redis==3.5.3
 django-report-builder==6.3.2
 psycopg2-binary==2.8.6
+requests==2.24.0
