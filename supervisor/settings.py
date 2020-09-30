@@ -15,20 +15,29 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+OUTSIDE_PROJECT_DIR = os.path.dirname(BASE_DIR)
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
+APPENV = os.getenv('APP_SETTINGS_ENV', "LOCAL")
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '0fjv68#3k4lqmfp@n=eormxy^t8mmv@*&i4rn7!@#i#a*+g^1$'
+if APPENV == 'LOCAL':
+    SECRET_KEY = '0fjv68#3k4lqmfp@n=eormxy^t8mmv@*&i4rn7!@#i#a*+g^1$'
+else:
+    SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if APPENV == 'LOCAL':
+    DEBUG = True
+else:
+    DEBUG = os.getenv('DJANGO_DEBUG', False)
 
-ALLOWED_HOSTS = []
-
-
-# Application definition
+if APPENV == 'LOCAL':
+    ALLOWED_HOSTS = [
+        '127.0.0.1'
+    ]
+else:
+    ALLOWED_HOSTS = [
+        os.getenv('DJANGO_ALLOWED_HOSTS')
+    ]
 
 DJANGO_APPS = [
     'django.contrib.admin',
@@ -67,7 +76,7 @@ ROOT_URLCONF = 'supervisor.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -86,12 +95,27 @@ WSGI_APPLICATION = 'supervisor.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if APPENV == 'LOCAL':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'db.sqlite3',
+        },
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': os.environ.get('DJANGO_DEFAULT_DB_ENGINE'),
+            'NAME': os.environ.get('DJANGO_DEFAULT_DB_NAME'),
+            'HOST': os.environ.get('DJANGO_DEFAULT_DB_HOST'),
+            'PORT': os.environ.get('DJANGO_DEFAULT_DB_PORT'),
+            'USER': os.environ.get('DJANGO_DEFAULT_DB_USER'),
+            'PASSWORD': os.environ.get('DJANGO_DEFAULT_DB_PASSWORD'),
+            'OPTIONS': {
+                'options': '-c search_path=supervisor,supervisor'
+            }
+        },
+    }
 
 
 # Password validation
@@ -112,13 +136,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/3.0/topics/i18n/
-
+# INTERNATIONALISATION
+#
 LANGUAGE_CODE = 'en-GB'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/London'
 
 USE_I18N = True
 
@@ -126,14 +148,17 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
-
+# STATIC/MEDIA
+#
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(OUTSIDE_PROJECT_DIR, 'static')
+STATICFILES_DIRS = ["templates/static"]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(OUTSIDE_PROJECT_DIR, 'media')
 
-# CELERY STUFF
+# CELERY
+#
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
@@ -141,3 +166,48 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/London'
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
+# LOGGING
+#
+LOG_DIR = OUTSIDE_PROJECT_DIR + '/logs/'
+
+os.makedirs(LOG_DIR, exist_ok=True)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        }
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+        'logfile': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'formatter': 'verbose',
+            'filename': LOG_DIR + 'info_logfile.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'logfile'],
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['console', 'logfile'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        '': {
+            'handlers': ['console', 'logfile'],
+            'level': 'INFO',
+        }
+    }
+}
