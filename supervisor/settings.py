@@ -41,6 +41,8 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     'django_celery_beat',
+    'report_builder',
+    'report_builder_scheduled'
 ]
 
 CUSTOM_APPS = [
