@@ -49,6 +49,7 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    'channels',
     'django_celery_beat',
     'report_builder',
     'report_builder_scheduled'
@@ -91,6 +92,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'supervisor.wsgi.application'
 
+ASGI_APPLICATION = "supervisor.routing.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
