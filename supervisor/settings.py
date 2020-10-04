@@ -74,6 +74,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'supervisor.urls'
 
+ADMINS = [("Ed", "edchapman88@gmail.com")]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
