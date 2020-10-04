@@ -1,0 +1,89 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <style>
+        body {
+            font-family: Helvetica;
+            width: 600px;
+            max-width: 600px;
+            padding: 10px;
+            color: #0f0f0f;
+            margin: 0 auto;
+        }
+
+        .container {
+            width: 600px;
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid #cecece;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        table {
+            font-size: 14px;
+            width: 100%;
+            line-height: 20px;
+        }
+
+        h2 {
+            padding-bottom: 16px;
+            border-bottom: 1px solid #cecece;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <table>
+        <tr>
+            <td>
+                    <span style="font-size: 18px; margin-right: 12px;">
+                        <strong>Stores Offline - {{ report_time }}</strong>
+                    </span>
+            </td>
+        </tr>
+    </table>
+
+    <table>
+        <thead>
+        <tr>
+            <td>
+                <strong>Store Name</strong>
+            </td>
+            <td>
+                <strong>Platform</strong>
+            </td>
+            <td>
+                <strong>Link</strong>
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sf in offline_stores %}
+            <tr>
+                <td>
+                    {{ sf.store.name }}
+                </td>
+                <td>
+                    {{ sf.store.platform.name }}
+                </td>
+                <td>
+                    <a href="{{ sf.url }}">
+                        Link
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+
+</html>
