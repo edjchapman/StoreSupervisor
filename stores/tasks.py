@@ -1,3 +1,5 @@
+import time
+
 from celery import shared_task
 
 from stores.emails import offline_stores_report_email
@@ -12,6 +14,7 @@ def update_store_statuses():
         if store.open_today() and store.open_now():
             for sf in store.storefront_set.filter(status=StoreFront.ACTIVE):
                 is_online = store_online(sf)
+                time.sleep(1)
                 StoreFrontStatusLog.objects.create(
                     store_front=sf,
                     online=is_online
