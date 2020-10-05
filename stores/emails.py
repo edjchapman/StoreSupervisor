@@ -15,6 +15,7 @@ def offline_stores_report_email(offline_stores):
     send_mail(
         subject='Stores Offline',
         message="",
+        from_email=None,
         html_message=get_template("offline_stores_report.html").render(context),
         recipient_list=['edchapman88@gmail.com']
     )
