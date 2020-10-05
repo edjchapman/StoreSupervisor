@@ -16,6 +16,5 @@ def offline_stores_report_email(offline_stores):
         subject='Stores Offline',
         message="",
         html_message=get_template("offline_stores_report.html").render(context),
-        from_email='no-reply@store-supervisor.website',
         recipient_list=['edchapman88@gmail.com']
     )
