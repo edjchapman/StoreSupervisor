@@ -171,6 +171,14 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/London'
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
+# SMTP
+#
+EMAIL_HOST = "smtp.eu.mailgun.org"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = True
+
 # LOGGING
 #
 LOG_DIR = OUTSIDE_PROJECT_DIR + '/logs/'
