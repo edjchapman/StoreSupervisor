@@ -80,7 +80,7 @@ class StoreFront(models.Model):
         )
 
 
-class StoreFrontStatusLog(models.Model):
+class StoreAudit(models.Model):
     """
     Store Front Status Log model.
     """

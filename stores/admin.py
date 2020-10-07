@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from stores.models import Store, StoreFront, StoreFrontStatusLog
+from stores.models import Store, StoreFront, StoreAudit
 
 
 class StoreFrontInline(admin.StackedInline):
@@ -48,8 +48,8 @@ class StoreAdmin(admin.ModelAdmin):
     ]
 
 
-@admin.register(StoreFrontStatusLog)
-class StoreFrontStatusLogAdmin(admin.ModelAdmin):
+@admin.register(StoreAudit)
+class StoreAuditAdmin(admin.ModelAdmin):
     """
     Store Front Status Log admin.
     """
