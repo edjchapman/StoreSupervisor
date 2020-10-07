@@ -11,7 +11,7 @@ class Platform(models.Model):
         return self.name
 
     def search_texts(self):
-        return [i.search_text for i in self.offlinesearchtext_set.all()]
+        return [i.search_text.lower() for i in self.offlinesearchtext_set.all()]
 
 
 class OfflineSearchText(models.Model):
