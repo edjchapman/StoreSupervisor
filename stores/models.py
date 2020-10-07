@@ -39,7 +39,7 @@ class Store(OpeningTimes):
             5: "saturday",
             6: "sunday",
         }
-        day = timezone.localtime().day
+        day = timezone.localtime().weekday()
         return getattr(self, day_dict[day])
 
     def open_now(self):
