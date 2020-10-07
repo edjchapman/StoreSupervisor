@@ -28,6 +28,8 @@ class StoreAdmin(admin.ModelAdmin):
     """
     fields = [
         "name",
+        "address",
+        "phone",
         "open_time",
         "close_time",
         "monday",
