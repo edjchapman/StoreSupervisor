@@ -21,12 +21,12 @@ class Store(models.Model):
         if do:
             if do.closed:
                 return False
-            return self.open_now(do.open_time, do.close_time, now)
-        return self.open_now(self.open_time, self.close_time, now)
+            return self.open_now(do.open_time, do.close_time)
+        return self.open_now(self.open_time, self.close_time)
 
     @staticmethod
-    def open_now(open_time, close_time, now=None):
-        now = now or tz.localtime()
+    def open_now(open_time, close_time):
+        now = tz.localtime().time()
         if open_time > close_time:  # e.g. 12:00 - 06:00
             if now > open_time or now < close_time:
                 return True
