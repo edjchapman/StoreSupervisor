@@ -16,12 +16,13 @@ class Store(models.Model):
         return self.name
 
     def should_be_open(self, now=None):
+        now = now or tz.localtime()
         do = self.dayopeningoverride_set.filter(day=now.weekday()).first()
         if do:
             if do.closed:
                 return False
-            return self.open_now(do.open_time, do.close_time)
-        return self.open_now(self.open_time, self.close_time)
+            return self.open_now(do.open_time, do.close_time, now)
+        return self.open_now(self.open_time, self.close_time, now)
 
     @staticmethod
     def open_now(open_time, close_time, now=None):

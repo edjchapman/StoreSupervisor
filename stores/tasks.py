@@ -11,7 +11,7 @@ from stores.services.store_statuses import store_online
 def update_store_statuses():
     offline_stores = []
     for store in Store.objects.all():
-        if store.open_today() and store.open_now():
+        if store.should_be_open():
             for sf in store.storefront_set.filter(status=StoreFront.ACTIVE):
                 is_online = store_online(sf)
                 time.sleep(1)
