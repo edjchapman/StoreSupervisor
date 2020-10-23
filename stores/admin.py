@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from stores.models import Store, StoreFront, StoreAudit
+from stores.models import Store, StoreFront, StoreAudit, DayOpeningOverride
 
 
-class StoreFrontInline(admin.StackedInline):
+class StoreFrontInline(admin.TabularInline):
     """
     Store Front inline.
     """
@@ -18,7 +18,21 @@ class StoreFrontInline(admin.StackedInline):
     readonly_fields = [
         "online"
     ]
-    extra = 1
+    extra = 0
+
+
+class DayOpeningOverrideInline(admin.TabularInline):
+    """
+    Day Opening Inline.
+    """
+    model = DayOpeningOverride
+    fields = [
+        "day",
+        "open_time",
+        "close_time",
+        "closed"
+    ]
+    extra = 0
 
 
 @admin.register(Store)
@@ -32,13 +46,6 @@ class StoreAdmin(admin.ModelAdmin):
         "phone",
         "open_time",
         "close_time",
-        "monday",
-        "tuesday",
-        "wednesday",
-        "thursday",
-        "friday",
-        "saturday",
-        "sunday"
     ]
     list_display = [
         "name",
@@ -46,6 +53,7 @@ class StoreAdmin(admin.ModelAdmin):
         "close_time"
     ]
     inlines = [
+        DayOpeningOverrideInline,
         StoreFrontInline
     ]
 
