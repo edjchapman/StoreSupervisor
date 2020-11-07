@@ -10,7 +10,13 @@ c = Connection(
     }
 )
 
+# Update Repo
 with c.cd('/home/supervisor/Supervisor'):
     c.run('git pull origin master')
     c.run('git reset --hard origin/master')
-    c.run('/home/supervisor/vsuper/bin/python supervisor/deployment/daphne/setup_daphne.py')
+
+# Setup Daphne
+with c.cd('/home/supervisor/Supervisor'):
+    c.run('source ~/.profile; /home/supervisor/vsuper/bin/python supervisor/deployment/daphne/setup_supervisor_files.py')
+
+# c.sudo('cp /home/supervisor/Supervisor/supervisor/deployment/daphne/daphne.conf /etc/supervisor/conf.d/supervisor1.conf')
