@@ -4,7 +4,7 @@ c = Connection(
     host='store-supervisor.website',
     user='supervisor',
     connect_kwargs={
-        "key_filename": "/Users/edwardchapman/.ssh/id_rsa.pub"
+        "key_filename": "/Users/ed/.ssh/id_rsa.pub"
     }
 )
 
@@ -15,19 +15,12 @@ def update_production_dir(c):
 
 
 def setup_daphne(c):
-    pass
+    c.run("python3 /home/supervisor/Supervisor/config/daphne/setup_daphne.py")
+    c.sudo('supervisorctl status all')
 
 
-def setup_nginx(c):
-    pass
-
-
-def setup_celery(c):
-    pass
-
-
-c.sudo('supervisorctl status all')
-print(c)
+update_production_dir(c)
+setup_daphne(c)
 
 
 """
