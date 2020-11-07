@@ -17,7 +17,9 @@ def update_production_dir(c):
 
 def setup_daphne(c):
     c.run("python3 /home/supervisor/Supervisor/config/daphne/setup_daphne.py")
-    c.sudo('supervisorctl status all')
+    c.sudo('supervisorctl reread')
+    c.sudo('supervisorctl update')
+    c.sudo('supervisorctl restart all')
 
 
 update_production_dir(c)
