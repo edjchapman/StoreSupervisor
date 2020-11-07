@@ -35,5 +35,6 @@ c.sudo('supervisorctl update')
 c.sudo('supervisorctl start all')
 
 # Copy NGINX conf to NGINX path
-c.sudo('cp {}/nginx_conf/conf.nginx /etc/nginx/sites-available'.format(deployment_path))
+c.sudo('cp {}/nginx_conf/conf.nginx /etc/nginx/sites-available/store-supervisor'.format(deployment_path))
+c.sudo('ln -s /etc/nginx/sites-available/store-supervisor /etc/nginx/sites-enabled/store-supervisor')
 c.sudo('nginx -s reload')

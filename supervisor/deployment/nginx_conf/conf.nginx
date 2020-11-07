@@ -35,7 +35,7 @@ server {
 
     location @proxy_to_app {
 
-        proxy_pass http://supervisor-backend;
+        proxy_pass http://store-supervisor-backend;
 
         # Sets the HTTP protocol version for proxying. By default, version 1.0 is used.
         # Version 1.1 is recommended for use with keepalive connections and NTLM authentication.
