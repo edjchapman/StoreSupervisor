@@ -30,9 +30,9 @@ class SetupDaphne:
         with open("/etc/supervisor/conf.d/daphne.conf", "w") as conf:
             conf.write("[fcgi-program:asgi]\n")
             conf.write("socket=tcp://0.0.0.0:8000\n")
-            conf.write("directory=/home/supervisor/Supervisor\n")
+            conf.write("directory=/Ed\n")
             conf.write(
-                "command=/home/supervisor/vsuper/bin/daphne1 -u /run/daphne/daphne%(process_num)d.sock --fd 0 --access-log - --proxy-headers supervisor.asgi:application\n")
+                "command=/home/supervisor/vsuper/bin/daphne -u /run/daphne/daphne%(process_num)d.sock --fd 0 --access-log - --proxy-headers supervisor.asgi:application\n")
             conf.write("numprocs={}\n".format(self.get_numprocs()))
             conf.write("process_name=asgi%(process_num)d\n")
             conf.write("autostart=true\n")
