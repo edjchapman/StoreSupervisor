@@ -9,7 +9,7 @@ for filename in os.listdir(directory):
     file_path = os.path.join(directory, filename)
     with open(file_path) as f:
         f = f.read()
-    with open(file_path) as f_out:
+    with open(file_path, "w") as f_out:
         f_out.write(f.replace("{{env_string}}", env_str))
     print(f)
     print("*******************************************")
