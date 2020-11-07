@@ -75,3 +75,6 @@ class SetupDaphne:
             subprocess.call("echo {teamcity_warning}".format(teamcity_warning=teamcity_warning), shell=True)
             var = var.replace("%", "_")
         return var
+
+
+SetupDaphne()
