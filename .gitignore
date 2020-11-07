@@ -17,6 +17,9 @@ tests/.coverage
 build/
 tests/report/
 
+# Virtualenvironment
+vsuper/
+
 # SQLite3
 *.sqlite3
 
