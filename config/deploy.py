@@ -11,6 +11,7 @@ c = Connection(
 
 def update_production_dir(c):
     with c.cd('/home/supervisor/Supervisor'):
+        c.run('git pull origin master')
         c.run('git reset --hard origin/master')
 
 
