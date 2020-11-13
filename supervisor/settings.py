@@ -25,10 +25,10 @@ if APPENV == 'LOCAL':
 else:
     SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
-if APPENV == 'LOCAL':
+if APPENV is None or APPENV == 'LOCAL':
     DEBUG = True
 else:
-    DEBUG = os.getenv('DJANGO_DEBUG', False)
+    DEBUG = False
 
 if APPENV == 'LOCAL':
     ALLOWED_HOSTS = [
