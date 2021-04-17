@@ -15,15 +15,15 @@ c = Connection(
 )
 
 # Update Repo
-with c.cd('/home/supervisor/Supervisor'):
+with c.cd('/home/supervisor/StoreSupervisor'):
     c.run('git pull origin master')
     c.run('git reset --hard origin/master')
 
 
 # Setup Supervisor files
-deployment_path = "/home/supervisor/Supervisor/supervisor/deployment/"
+deployment_path = "/home/supervisor/StoreSupervisor/supervisor/deployment/"
 
-with c.cd('/home/supervisor/Supervisor'):
+with c.cd('/home/supervisor/StoreSupervisor'):
     c.run('source ~/.profile; /home/supervisor/vsuper/bin/python {}/supervisor_conf/setup_supervisor_files.py'.format(
         deployment_path
     ))
