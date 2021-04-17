@@ -56,6 +56,7 @@ sudo ufw enable
 
 2. Set the environment variables for the user
 ```shell
+# /home/supervisor/.profile
 export DJANGO_DEBUG="False"
 export DJANGO_ALLOWED_HOSTS="store-supervisor.website"
 export APP_SETTINGS_ENV="PRODUCTION"
