@@ -2,11 +2,15 @@ from fabric import Connection
 import os
 import textwrap
 
+SERVER_HOST_NAME = "store-supervisor.website"
+SERVER_USER = "supervisor"
+PUBLIC_KEY_PATH = "/Users/YOUR_USER_HERE/.ssh/id_rsa.pub"
+
 c = Connection(
-    host='store-supervisor.website',
-    user='supervisor',
+    host=SERVER_HOST_NAME,
+    user=SERVER_USER,
     connect_kwargs={
-        "key_filename": "/Users/ed/.ssh/id_rsa.pub"
+        "key_filename": PUBLIC_KEY_PATH
     }
 )
 
