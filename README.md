@@ -54,18 +54,37 @@ sudo ufw allow OpenSSH
 sudo ufw enable
 ```
 
-2. Install the requirements
+2. Set the environment variables for the user
+```shell
+export DJANGO_DEBUG="False"
+export DJANGO_ALLOWED_HOSTS="store-supervisor.website"
+export APP_SETTINGS_ENV="PRODUCTION"
+export DJANGO_SECRET_KEY="secret_key"
+
+export DJANGO_DEFAULT_DB_ENGINE="django.db.backends.postgresql"
+export DJANGO_DEFAULT_DB_NAME="db_name"
+export DJANGO_DEFAULT_DB_HOST="localhost"
+export DJANGO_DEFAULT_DB_PORT="5432"
+export DJANGO_DEFAULT_DB_USER="username"
+export DJANGO_DEFAULT_DB_PASSWORD="password"
+
+export EMAIL_HOST_USER="postmaster@mg.store-supervisor.website"
+export EMAIL_HOST_PASSWORD="7228bc031d84b106e51f67eb9ceb1886-0d2e38f7-5484cb87"
+
+```
+
+3. Install the requirements
 ```shell
 apt-get install python3-venv supervisor git
 ```
 
-3. Checkout the repo on the server
+4. Checkout the repo on the server
 ```shell
 cd /home/supervisor
 git clone https://github.com/edjchapman/StoreSupervisor.git
 ```
 
-4. Setup the Django environment
+5. Setup the Django environment
 ```shell
 # Install Gunicorn into Python virtual environment
 python3 -m venv /home/supervisor/vsuper
@@ -73,7 +92,7 @@ source /home/supervisor/vsuper/bin/activate
 pip install -r /home/supervisor/StoreSupervisor/supervisor/requirements.txt
 ```
 
-5. Setup Nginx
+6. Setup Nginx
 ```shell
 # Install requirements
 apt install nginx
@@ -190,7 +209,7 @@ server {
 }
 ```
 
-6. Deploying updates
+7. Deploying updates
 
 The script `supervisor/deploy.py` should handle future updates.
 
