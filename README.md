@@ -1,6 +1,8 @@
 Store Supervisor
 ================
-Monitor the status of store fronts from a customer's perspective
+Monitors the status of online store fronts on sites like Uber Eats and Deliveroo.  
+Issues alerts when stores are offline.
+Stores a record of when stores are online/offline in order to provide periodic reports of store performance.
 
 ---
 
