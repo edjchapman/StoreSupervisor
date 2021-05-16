@@ -16,6 +16,7 @@ tests/coverage_html/
 tests/.coverage
 build/
 tests/report/
+.DS_Store
 
 # Virtualenvironment
 venv/
@@ -30,3 +31,4 @@ venv/
 celerybeat.pid
 celerybeat-schedule
 dump.rdb
+
