@@ -1,7 +1,8 @@
 Store Supervisor
 ================
-Monitors the status of online store fronts on sites like Uber Eats and Deliveroo.  
-- Issues alerts when stores are offline.
+Monitors the status of online storefronts on sites like Uber Eats and Deliveroo.
+
+- Issue alerts when stores are offline.
 - Stores a record of when stores are online/offline in order to provide periodic reports of store performance.
 
 ---
@@ -9,6 +10,7 @@ Monitors the status of online store fronts on sites like Uber Eats and Deliveroo
 ## Local Development
 
 Clone the repo
+
 ```shell
 git clone https://github.com/edjchapman/StoreSupervisor.git
 ```
@@ -60,7 +62,7 @@ sudo ufw enable
 ```shell
 # /home/supervisor/.profile
 export DJANGO_DEBUG="False"
-export DJANGO_ALLOWED_HOSTS="store-supervisor.website"
+export DJANGO_ALLOWED_HOSTS="<server-address>"
 export APP_SETTINGS_ENV="PRODUCTION"
 export DJANGO_SECRET_KEY="secret_key"
 
@@ -71,8 +73,8 @@ export DJANGO_DEFAULT_DB_PORT="5432"
 export DJANGO_DEFAULT_DB_USER="username"
 export DJANGO_DEFAULT_DB_PASSWORD="password"
 
-export EMAIL_HOST_USER="postmaster@mg.store-supervisor.website"
-export EMAIL_HOST_PASSWORD="7228bc031d84b106e51f67eb9ceb1886-0d2e38f7-5484cb87"
+export EMAIL_HOST_USER="<email-server-address>"
+export EMAIL_HOST_PASSWORD="<email-host-password>"
 
 ```
 
@@ -88,10 +90,11 @@ git clone https://github.com/edjchapman/StoreSupervisor.git
 ```
 
 5. Setup the Django environment
+
 ```shell
 # Install Gunicorn into Python virtual environment
-python3 -m venv /home/supervisor/vsuper
-source /home/supervisor/vsuper/bin/activate
+python3 -m venv /home/supervisor/venv
+source /home/supervisor/venv/bin/activate
 pip install -r /home/supervisor/StoreSupervisor/supervisor/requirements.txt
 ```
 
@@ -117,10 +120,10 @@ upstream store-supervisor-backend {
 
 server {
 
-    server_name store-supervisor.website;
+    server_name <server-address>;
 
     ## Only requests to our Host are allowed i.e. natooraapp.uk.natoora.com
-    if ($host !~* ^(store-supervisor.website)$ ) {
+    if ($host !~* ^(<server-address>)$ ) {
         return 444;
     }
 
@@ -139,7 +142,7 @@ server {
     }
 
     location /static/admin {
-        alias /home/supervisor/vsuper/lib/python3.7/site-packages/django/contrib/admin/static/admin;
+        alias /home/supervisor/venv/lib/python3.7/site-packages/django/contrib/admin/static/admin;
     }
 
     location / {
@@ -183,8 +186,8 @@ server {
 
 
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/store-supervisor.website/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/store-supervisor.website/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/<server-address>/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/<server-address>/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 
@@ -202,11 +205,11 @@ server {
 
 
 server {
-    if ($host = store-supervisor.website) {
+    if ($host = <server-address>) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
-    server_name store-supervisor.website;
+    server_name <server-address>;
     listen 80;
     return 404; # managed by Certbot
 }
@@ -246,7 +249,7 @@ celery -A supervisor worker -l info -E
 [program:supervisor_celery_worker]
 
 ; Set full path to celery program if using virtualenv
-command=/home/supervisor/vsuper/bin/celery worker -A supervisor --loglevel=INFO
+command=/home/supervisor/venv/bin/celery worker -A supervisor --loglevel=INFO
 
 ; The directory to your Django project
 directory=/home/supervisor/StoreSupervisor
@@ -304,7 +307,7 @@ Celery Scheduler: supervisor_celerybeat.conf
 [program:supervisor_celery_beat]
 
 ; Set full path to celery program if using virtualenv
-command=/home/supervisor/vsuper/bin/celery -A supervisor --loglevel=INFO
+command=/home/supervisor/venv/bin/celery -A supervisor --loglevel=INFO
 
 ; The directory to your Django project
 directory=/home/supervisor/StoreSupervisor
@@ -341,21 +344,8 @@ startsecs=10
 priority=999
 ```
 
-We also need to create the log files that are mentioned in the above scripts on the remote server:
-```
-$ touch /var/log/celery/picha_worker.log
-$ touch /var/log/celery/picha_beat.log
-```
-
-Finally, run the following commands to make Supervisor aware of the programs - e.g., pichacelery and pichacelerybeat:
+#### Reload Supervisor config
 ```
 $ sudo supervisorctl reread
 $ sudo supervisorctl update
-```
-
-Run the following commands to stop, start, and/or check the status of the pichacelery program:
-```
-$ sudo supervisorctl stop pichacelery
-$ sudo supervisorctl start pichacelery
-$ sudo supervisorctl status pichacelery
 ```
