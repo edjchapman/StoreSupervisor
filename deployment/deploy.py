@@ -1,8 +1,6 @@
 from fabric import Connection
-import os
-import textwrap
 
-SERVER_HOST_NAME = "store-supervisor.website"
+SERVER_HOST_NAME = "<SERVER-HOST-NAME>"
 SERVER_USER = "supervisor"
 PUBLIC_KEY_PATH = "/Users/YOUR_USER_HERE/.ssh/id_rsa.pub"
 
@@ -18,7 +16,6 @@ c = Connection(
 with c.cd('/home/supervisor/StoreSupervisor'):
     c.run('git pull origin master')
     c.run('git reset --hard origin/master')
-
 
 # Setup Supervisor files
 deployment_path = "/home/supervisor/StoreSupervisor/supervisor/deployment/"

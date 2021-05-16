@@ -1,7 +1,6 @@
 import time
 
 from celery import shared_task
-
 from stores.emails import offline_stores_report_email
 from stores.models import StoreAudit, Store, StoreFront
 from stores.services.store_statuses import store_online
