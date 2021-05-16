@@ -1,8 +1,31 @@
-celery==4.4.7
-channels==2.4.0
-Django==3.1.1
-django-celery-beat==2.0.0
+# Python Web Framework
+# https://www.djangoproject.com/
+Django==3.2.3
+
+# Automated/periodic tasks
+# https://docs.celeryproject.org/en/stable/index.html
+celery==5.0.5
+
+# Celery extension to store periodic task scheduling in the database
+# https://github.com/celery/django-celery-beat
+django-celery-beat==2.2.0
+
+# Django ASGI support
+# https://channels.readthedocs.io/en/stable/
+channels==3.0.3
+
+# Python interface to the Redis key-value store
+# https://pypi.org/project/redis/
 redis==3.5.3
-django-report-builder==6.3.2
+
+# GUI for the Djano ORM
+# https://django-report-builder.readthedocs.io/en/latest/quickstart/
+django-report-builder==6.4.2
+
+# PostgreSQL database adapter for Python
+# https://pypi.org/project/psycopg2-binary/
 psycopg2-binary==2.8.6
-requests==2.24.0
+
+# Python HTTP library
+# https://pypi.org/project/requests/
+requests==2.25.1
