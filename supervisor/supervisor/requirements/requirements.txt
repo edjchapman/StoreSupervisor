@@ -1,6 +1,6 @@
 # Python Web Framework
 # https://www.djangoproject.com/
-Django==3.2.3
+Django==3.2.4
 
 # Automated/periodic tasks
 # https://docs.celeryproject.org/en/stable/index.html
